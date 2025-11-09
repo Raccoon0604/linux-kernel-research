@@ -1,0 +1,82 @@
+GNU gdb (Ubuntu 15.0.50.20240403-0ubuntu1) 15.0.50.20240403-git
+Copyright (C) 2024 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from bug...
+[?2004h(gdb) break main
+[?2004lBreakpoint 1 at 0x1236: file bug.c, line 12.
+[?2004h(gdb) run
+[?2004lStarting program: /home/guoxingyu/gdb-debug-demo/bug 
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+[?2004hEnable debuginfod for this session? (y or [n]) n
+[?2004lDebuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at bug.c:12
+12	    int *array = (int *)malloc(5 * sizeof(int));
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l13	    if (array == NULL) {
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l18	    for (int i = 0; i < 5; i++) {
+[?2004h[?2004l[?2004h(gdb) print array
+[?2004l$1 = (int *) 0x5555555592a0
+[?2004h(gdb) print *array@5
+[?2004l$2 = {0, 0, 0, 0, 0}
+[?2004h(gdb) next
+[?2004l19	        array[i] = i + 1;
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l18	    for (int i = 0; i < 5; i++) {
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l19	        array[i] = i + 1;
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l18	    for (int i = 0; i < 5; i++) {
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l19	        array[i] = i + 1;
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l18	    for (int i = 0; i < 5; i++) {
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l19	        array[i] = i + 1;
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l18	    for (int i = 0; i < 5; i++) {
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l19	        array[i] = i + 1;
+[?2004h[?2004l[?2004h(gdb) print *atta[K[K[Krray@5
+[?2004l$3 = {1, 2, 3, 4, 0}
+[?2004h(gdb) next
+[?2004l18	    for (int i = 0; i < 5; i++) {
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l22	    printf("Original array: ");
+[?2004h[?2004l[?2004h(gdb) nextprint *array@5
+[?2004l$4 = {1, 2, 3, 4, 5}
+[?2004h(gdb) next
+[?2004l23	    print_array(array, 5);
+[?2004h[?2004l[?2004h(gdb) next
+[?2004l25	    int *ptr = array + 5; 
+[?2004h[?2004l[?2004h(gdb) print ptr
+[?2004l$5 = (int *) 0x7fffffffde28
+[?2004h(gdb) next
+[?2004l26	    *ptr = 10; 
+[?2004h[?2004l[?2004h(gdb) print *att==[K[K[K[Krray@6
+[?2004l$6 = {1, 2, 3, 4, 5, 0}
+[?2004h(gdb) continue
+[?2004lContinuing.
+Original array: 1 2 3 4 5 
+Modified array: 1 2 3 4 5 
+[Inferior 1 (process 3612) exited normally]
+[?2004h[?2004l[?2004h(gdb) quit
+[?2004l

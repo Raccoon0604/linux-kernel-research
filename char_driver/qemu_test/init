@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# 挂载文件系统
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+
+echo ""
+echo "========================================"
+echo "    Linux with Built-in Driver Test"
+echo "========================================"
+echo ""
+
+sleep 2  # 等待设备初始化
+
+echo "=== 1. 系统信息 ==="
+echo "Kernel: $(uname -r)"
+echo "Arch: $(uname -m)"
+
+echo ""
+echo "=== 2. 驱动加载检查 ==="
+echo "dmesg | grep simple_char_driver:"
+dmesg | grep simple_char_driver
+
+echo ""
+echo "=== 3. 设备文件检查 ==="
+if [ -e /dev/simple_char_dev ]; then
+    echo "✅ 设备文件存在:"
+    ls -la /dev/simple_char_dev
+else
+    echo "❌ 设备文件不存在"
+    echo "可用设备:"
+    ls /dev | head -10
+fi
+
+echo ""
+echo "=== 4. 功能测试 ==="
+if [ -e /dev/simple_char_dev ]; then
+    echo "写入测试..."
+    echo "Hello from built-in driver!" > /dev/simple_char_dev 2>&1
+    if [ $? -eq 0 ]; then
+        echo "✅ 写入成功"
+    else
+        echo "❌ 写入失败"
+    fi
+    
+    echo "读取测试..."
+    CONTENT=$(cat /dev/simple_char_dev 2>&1)
+    if [ $? -eq 0 ]; then
+        echo "✅ 读取成功: '$CONTENT'"
+    else
+        echo "❌ 读取失败"
+    fi
+fi
+
+echo ""
+echo "=== 5. 详细日志 ==="
+dmesg | grep simple_char_driver
+
+echo ""
+echo "========================================"
+echo "测试完成！输入 'poweroff' 关机"
+echo "========================================"
+
+exec /bin/sh
